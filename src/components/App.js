@@ -15,6 +15,28 @@ class App extends React.Component {
     }
   }
 
+  getPets = (pets) => {
+    this.setState({
+      pets: [...pets],
+    })
+  }
+
+  onChangeType = (searchInput) => {
+    this.setState({
+      filters: {
+        type: searchInput
+      }
+    })
+  }
+
+  onAdoptPet = (petId) => {
+    let petSelected = this.state.pets.filter( pet => pet.id === petId )[0];
+    petSelected.isAdopted = true;
+    this.setState({
+      pets: [...this.state.pets]
+    })
+  }
+
   render() {
     return (
       <div className="ui container">
@@ -24,10 +46,10 @@ class App extends React.Component {
         <div className="ui container">
           <div className="ui grid">
             <div className="four wide column">
-              <Filters />
+              <Filters onChangeType={this.onChangeType} getPets={this.getPets} />
             </div>
             <div className="twelve wide column">
-              <PetBrowser />
+              <PetBrowser pets={this.state.pets} onAdoptPet={this.onAdoptPet} />
             </div>
           </div>
         </div>
